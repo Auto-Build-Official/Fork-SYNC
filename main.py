@@ -20,7 +20,7 @@ def sync(list):
         TAG = dict.get("tags", False)
         GITHUB_ACTOR = os.environ.get("GITHUB_ACTOR")
         
-        pi= subprocess.Popen("${ github.actor }",shell=True,stdout=subprocess.PIPE)
+        pi= subprocess.Popen("${ github.actor }",stdout=subprocess.PIPE)
         print("测试获取 %s",pi.stdout.read())#打印结果
         #print("获取GITHUB_ACTOR: %s",os.environ.get("github.actor"))
 
@@ -58,7 +58,7 @@ def sync(list):
         upstream_repo = "https://" + GITHUB_ACTOR + ":" + _GITHUB_TOKEN + "@github.com/" + UPSTREAM_REPO + ".git"
         upstream_dir = UPSTREAM_REPO.split("/")
         target_repo = "https://" + GITHUB_ACTOR + ":" + _GITHUB_TOKEN + "@github.com/" + TARGET_REPO + ".git"
-        print(target_repo)
+        print("目标链接: %s", target_repo)
         setup_one = ["git", "clone", upstream_repo]
         setup_three = ["git", "push", _FORCE, "--follow-tags", _TAG, target_repo, UPSTREAM_BRANCH, ":", TARGET_BRANCH]
         setup_clean = ["rm", "-rf", upstream_dir[-1]]
