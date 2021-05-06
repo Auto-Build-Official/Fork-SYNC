@@ -14,7 +14,7 @@ def sync(list):
         GITHUB_TOKEN = dict.get("github_token")
         UPSTREAM_REPO = dict.get("upstream_repository")
         TARGET_REPO = dict.get("target_repository")
-        UPSTREAM_BRANCH = dict.get("target_branch", "master")
+        UPSTREAM_BRANCH = dict.get("upstream_branch", "master")
         TARGET_BRANCH = dict.get("target_branch", "master")
         FORCE = dict.get("force", False)
         TAG = dict.get("tags", False)
@@ -66,8 +66,6 @@ def sync(list):
         return_code=one_setup.wait()
         if return_code == False:
             os.chdir(path_work + "/" + upstream_dir[-1])
-            subprocess.call("pwd")
-            print("目标链接: %s", setup_three)
             three_setup=subprocess.Popen(setup_three)
             return_code=three_setup.wait()
             if return_code == False:
