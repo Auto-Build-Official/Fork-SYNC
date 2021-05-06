@@ -67,7 +67,7 @@ def sync(list):
         return_code=one_setup.wait()
         if return_code == False:
             os.chdir(path_work + "/" + upstream_dir[-1])
-            subprocess.call("pwd && ls -al")
+            subprocess.call("pwd")
             three_setup=subprocess.Popen(setup_three)
             return_code=three_setup.wait()
             if return_code == False:
