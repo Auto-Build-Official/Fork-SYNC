@@ -19,8 +19,11 @@ def sync(list):
         FORCE = dict.get("force", False)
         TAG = dict.get("tags", False)
         GITHUB_ACTOR = os.environ.get("GITHUB_ACTOR")
-        print("获取GITHUB_ACTOR: %s",os.environ.get("github.actor"))
         
+        pi= subprocess.Popen("${{ github.actor }}",shell=True,stdout=subprocess.PIPE)
+        print("测试获取 %s",pi.stdout.read())#打印结果
+        #print("获取GITHUB_ACTOR: %s",os.environ.get("github.actor"))
+
         _FORCE = ""
         _TAG = ""
         _GITHUB_TOKEN = None
@@ -58,9 +61,25 @@ def sync(list):
         setup_one = ["git", "clone", upstream_repo]
         setup_two = ["cd", upstream_dir[-1]]
         setup_three = ["git", "push", _FORCE, "--follow-tags", _TAG, target_repo, UPSTREAM_BRANCH, ":", TARGET_BRANCH]
-        subprocess.call(setup_one)
-        subprocess.call(setup_two)
-        subprocess.call(setup_three)
+
+        one_setup=subprocess.Popen(setup_one)
+        return_code=one_setup.wait()
+        if return_code == False:
+            two_setup=subprocess.Popen(setup_two)
+            return_code=two_setup.wait()
+            if return_code == False:
+                three_setup=subprocess.Popen(setup_three)
+                return_code=three_setup.wait()
+                if return_code == False:
+                    logger.info("%s : 仓库同步成功", TARGET_REPO)
+                else:
+                    logger.info("%s : 仓库同步失败", TARGET_REPO)
+            else:
+                logger.info("%s : 未找到目录,跳过", upstream_dir[-1])
+                continue
+        else:
+            logger.info("%s : 远程仓库拉取失败,跳过", UPSTREAM_REPO)
+            continue
 
 
 
