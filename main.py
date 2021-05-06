@@ -48,12 +48,12 @@ def sync(list):
             _TAG = "--tags"
 
         upstream_repo = "https://" + os.environ.get("GITHUB_ACTOR") + ":" + _GITHUB_TOKEN + "@github.com/" + UPSTREAM_REPO + ".git"
-        upstream_dir = "${" + UPSTREAM_REPO + "##*/}"
+        upstream_dir = "${ %s ##*/}" % (UPSTREAM_REPO)
         target_repo = "https://" + os.environ.get("GITHUB_ACTOR") + ":" + _GITHUB_TOKEN + "@github.com/" + TARGET_REPO + ".git"
         
-        setup_one = "git clone " + upstream_repo
-        setup_two = "cd " + upstream_dir
-        setup_three = "git push " + _FORCE + " --follow-tags" + _TAG + target_repo + UPSTREAM_BRANCH + ":" + TARGET_BRANCH
+        setup_one = "git clone %s" % (upstream_repo)
+        setup_two = "cd %s" % (upstream_dir)
+        setup_three = "git push %s --follow-tags %s %s %s:%s" % (_FORCE, _TAG, target_repo, UPSTREAM_BRANCH, TARGET_BRANCH)
         subprocess.call(setup_one)
         subprocess.call(setup_two)
         subprocess.call(setup_three)
