@@ -58,7 +58,6 @@ def sync(list):
         upstream_repo = "https://" + GITHUB_ACTOR + ":" + _GITHUB_TOKEN + "@github.com/" + UPSTREAM_REPO + ".git"
         upstream_dir = UPSTREAM_REPO.split("/")
         target_repo = "https://" + GITHUB_ACTOR + ":" + _GITHUB_TOKEN + "@github.com/" + TARGET_REPO + ".git"
-        print("目标链接: %s", target_repo)
         setup_one = ["git", "clone", upstream_repo]
         setup_three = ["git", "push", _FORCE, "--follow-tags", _TAG, target_repo, UPSTREAM_BRANCH, ":", TARGET_BRANCH]
         setup_clean = ["rm", "-rf", upstream_dir[-1]]
@@ -68,6 +67,7 @@ def sync(list):
         if return_code == False:
             os.chdir(path_work + "/" + upstream_dir[-1])
             subprocess.call("pwd")
+            print("目标链接: %s", setup_three)
             three_setup=subprocess.Popen(setup_three)
             return_code=three_setup.wait()
             if return_code == False:
