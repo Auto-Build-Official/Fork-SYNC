@@ -20,8 +20,8 @@ def sync(list):
         TAG = dict.get("tags", False)
         GITHUB_ACTOR = os.environ.get("GITHUB_ACTOR")
         
-        pi= subprocess.Popen("${ github.actor }",stdout=subprocess.PIPE)
-        print("测试获取 %s",pi.stdout.read())#打印结果
+        #pi= subprocess.Popen("${ github.actor }",stdout=subprocess.PIPE)
+        #print("测试获取 %s",pi.stdout.read())#打印结果
         #print("获取GITHUB_ACTOR: %s",os.environ.get("github.actor"))
 
         _FORCE = ""
