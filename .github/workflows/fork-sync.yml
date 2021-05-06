@@ -1,0 +1,23 @@
+name: '自动同步上游仓库'
+
+on:
+  workflow_dispatch:
+  push:
+  schedule:
+    - cron: '50 1 * * 0,3'
+
+jobs:
+  auto_renew:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: '设置Python环境'
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: '安装pip依赖'
+        run: |
+          pip install -r requirements.txt
+      - name: '执行脚本'
+        run: python main.py

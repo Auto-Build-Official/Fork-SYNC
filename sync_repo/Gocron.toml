@@ -1,0 +1,7 @@
+github_token = "None"
+upstream_repository = "ouqiang/gocron"
+target_repository = "Auto-Build-Official/Gocron"
+upstream_branch = "master"
+target_branch = "fork"
+force = true
+tags = true
