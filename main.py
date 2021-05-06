@@ -20,7 +20,7 @@ def sync(list):
         TAG = dict.get("tags", False)
         GITHUB_ACTOR = os.environ.get("GITHUB_ACTOR")
         
-        pi= subprocess.Popen("${{ github.actor }}",shell=True,stdout=subprocess.PIPE)
+        pi= subprocess.Popen("${ github.actor }",shell=True,stdout=subprocess.PIPE)
         print("测试获取 %s",pi.stdout.read())#打印结果
         #print("获取GITHUB_ACTOR: %s",os.environ.get("github.actor"))
 
@@ -59,37 +59,31 @@ def sync(list):
         upstream_dir = UPSTREAM_REPO.split("/")
         target_repo = "https://" + GITHUB_ACTOR + ":" + _GITHUB_TOKEN + "@github.com/" + TARGET_REPO + ".git"
         setup_one = ["git", "clone", upstream_repo]
-        setup_two = ["cd", upstream_dir[-1]]
         setup_three = ["git", "push", _FORCE, "--follow-tags", _TAG, target_repo, UPSTREAM_BRANCH, ":", TARGET_BRANCH]
+        setup_clean = ["rm", "-rf", upstream_dir[-1]]
 
         one_setup=subprocess.Popen(setup_one)
         return_code=one_setup.wait()
         if return_code == False:
             os.chdir(path_work + "/" + upstream_dir[-1])
-            #return_code=two_setup.wait()
+            three_setup=subprocess.Popen(setup_three)
+            return_code=three_setup.wait()
             if return_code == False:
-                three_setup=subprocess.Popen(setup_three)
-                return_code=three_setup.wait()
-                if return_code == False:
-                    logger.info("%s : 仓库同步成功", TARGET_REPO)
-                else:
-                    logger.info("%s : 仓库同步失败", TARGET_REPO)
+                logger.info("%s : 仓库同步成功", TARGET_REPO)
+                os.chdir(path_work)
+                subprocess.call(setup_clean)
             else:
-                logger.info("%s : 未找到目录,跳过", upstream_dir[-1])
-                continue
+                logger.info("%s : 仓库同步失败", TARGET_REPO)
+                os.chdir(path_work)
+                subprocess.call(setup_clean)
         else:
             logger.info("%s : 远程仓库拉取失败,跳过", UPSTREAM_REPO)
+            subprocess.call(setup_clean)
             continue
 
 
 
 def main():
-
-
-
-    #仓库同步路径
-    path_sync = path_work+"/sync_repo/"
-    logger.info("仓库订阅目录: %s", path_sync)
     repo_list = get_files(path_sync)
     sync(repo_list)
 
@@ -99,6 +93,9 @@ if __name__ == '__main__':
     #当前路径
     path_work = os.path.dirname(os.path.realpath(__file__))
     logger.info("脚本运行目录: %s", path_work)
+    #仓库同步路径
+    path_sync = path_work+"/sync_repo/"
+    logger.info("仓库订阅目录: %s", path_sync)
     main()
 
 
