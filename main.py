@@ -57,9 +57,9 @@ def sync(list):
         
         upstream_repo = "https://" + GITHUB_ACTOR + ":" + _GITHUB_TOKEN + "@github.com/" + UPSTREAM_REPO + ".git"
         upstream_dir = UPSTREAM_REPO.split("/")
-        target_repo = "https://" + GITHUB_ACTOR + ":" + _GITHUB_TOKEN + "@github.com/" + TARGET_REPO + ".git"
+        _target_repo = "https://" + GITHUB_ACTOR + ":" + _GITHUB_TOKEN + "@github.com/" + TARGET_REPO + ".git"
         setup_one = ["git", "clone", upstream_repo]
-        setup_three = ["git", "push", _FORCE, "--follow-tags", _TAG, target_repo, UPSTREAM_BRANCH, ":", TARGET_BRANCH]
+        setup_three = ["git", "push", _FORCE, "--follow-tags", _TAG, _target_repo, UPSTREAM_BRANCH, ":", TARGET_BRANCH]
         setup_clean = ["rm", "-rf", upstream_dir[-1]]
 
         one_setup=subprocess.Popen(setup_one)
