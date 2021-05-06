@@ -49,7 +49,7 @@ def sync(list):
 
         upstream_repo = "https://" + os.environ.get("GITHUB_ACTOR") + ":" + _GITHUB_TOKEN + "@github.com/" + UPSTREAM_REPO + ".git"
         upstream_dir = "${" + UPSTREAM_REPO + "##*/}"
-        target_repo = "https://" + os.environ.get(GITHUB_ACTOR) + ":" + _GITHUB_TOKEN + "@github.com/" + TARGET_REPO + ".git"
+        target_repo = "https://" + os.environ.get("GITHUB_ACTOR") + ":" + _GITHUB_TOKEN + "@github.com/" + TARGET_REPO + ".git"
         
         setup_one = "git clone " + upstream_repo
         setup_two = "cd " + upstream_dir
