@@ -22,4 +22,5 @@ jobs:
       - name: '执行脚本'
         env:
           FORK_TOKEN: ${{ secrets.FORK_TOKEN }}
+          GITHUB_ACTOR: ${{ GITHUB_ACTOR }}
         run: python main.py
