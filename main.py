@@ -65,8 +65,8 @@ def sync(list):
         one_setup=subprocess.Popen(setup_one)
         return_code=one_setup.wait()
         if return_code == False:
-            two_setup=subprocess.Popen(setup_two)
-            return_code=two_setup.wait()
+            os.chdir(path_work + "/" + upstream_dir[-1])
+            #return_code=two_setup.wait()
             if return_code == False:
                 three_setup=subprocess.Popen(setup_three)
                 return_code=three_setup.wait()
@@ -85,9 +85,7 @@ def sync(list):
 
 def main():
 
-    #当前路径
-    path_work = os.path.dirname(os.path.realpath(__file__))
-    logger.info("脚本运行目录: %s", path_work)
+
 
     #仓库同步路径
     path_sync = path_work+"/sync_repo/"
@@ -98,6 +96,9 @@ def main():
 if __name__ == '__main__':
     logging.basicConfig(level = logging.INFO,format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     logger = logging.getLogger(__name__)
+    #当前路径
+    path_work = os.path.dirname(os.path.realpath(__file__))
+    logger.info("脚本运行目录: %s", path_work)
     main()
 
 
