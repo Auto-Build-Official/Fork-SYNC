@@ -23,7 +23,7 @@ def sync(list):
         _GITHUB_TOKEN = None
 
         if GITHUB_TOKEN == None:
-            _GITHUB_TOKEN = os.environ.get("secrets.FORK_TOKEN", None)
+            _GITHUB_TOKEN = os.environ.get("FORK_TOKEN", None)
             if _GITHUB_TOKEN == None:
                 logger.warning("%s : 未获取到TOKEN,跳过", list[i])
                 continue

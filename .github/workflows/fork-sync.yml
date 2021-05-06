@@ -7,7 +7,7 @@ on:
     - cron: '50 1 * * 0,3'
 
 jobs:
-  auto_renew:
+  Auto_sync_fork:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -20,4 +20,6 @@ jobs:
         run: |
           pip install -r requirements.txt
       - name: '执行脚本'
+        env:
+          FORK_TOKEN: ${{ secrets.FORK_TOKEN }}
         run: python main.py
