@@ -50,11 +50,13 @@ def sync(list):
         if TAG == True:
             _TAG = "--tags"
 
+
+        
         upstream_repo = "https://" + GITHUB_ACTOR + ":" + _GITHUB_TOKEN + "@github.com/" + UPSTREAM_REPO + ".git"
-        upstream_dir = "${ %s ##*/}" % (UPSTREAM_REPO)
+        upstream_dir = UPSTREAM_REPO.split("/")
         target_repo = "https://" + GITHUB_ACTOR + ":" + _GITHUB_TOKEN + "@github.com/" + TARGET_REPO + ".git"
         setup_one = ["git", "clone", upstream_repo]
-        setup_two = ["cd", upstream_dir]
+        setup_two = ["cd", upstream_dir[-1]]
         setup_three = ["git", "push", _FORCE, "--follow-tags", _TAG, target_repo, UPSTREAM_BRANCH, ":", TARGET_BRANCH]
         subprocess.call(setup_one)
         subprocess.call(setup_two)
